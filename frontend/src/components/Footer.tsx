@@ -8,7 +8,7 @@ export default function Footer() {
           MernEats.com
         </span>
         <span className="text-white font-bold tracking-tight flex gap-4">
-          <span>Privacy Policy</span>
+          <span>Privacy policy</span>
           <span>Terms of Service</span>
         </span>
       </div>
