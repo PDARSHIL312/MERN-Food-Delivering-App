@@ -26,6 +26,8 @@ const createCurrentUser = async (req: Request, res: Response) => {
 const updateCurrentUser = async (req: Request, res: Response) => {
   try {
     const { name, addressLine1, country, city } = req.body;
+    console.log(req.body);
+    console.log(req.userId);
     const user = await User.findById(req.userId);
 
     if (!user) {
@@ -46,4 +48,18 @@ const updateCurrentUser = async (req: Request, res: Response) => {
   }
 };
 
-export default { createCurrentUser, updateCurrentUser };
+const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const currentUser = await User.findOne({ _id: req.userId });
+    if (!currentUser) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    res.json(currentUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export default { createCurrentUser, updateCurrentUser, getCurrentUser };
