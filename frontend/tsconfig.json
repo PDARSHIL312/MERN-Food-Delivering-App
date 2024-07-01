@@ -24,6 +24,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../backend/src/forms/user-profile-form"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
