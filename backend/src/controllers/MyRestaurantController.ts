@@ -55,38 +55,26 @@ import mongoose from "mongoose";
 
 const createMyRestaurant = async (req: Request, res: Response) => {
   try {
-    // if (req.userId) {
-    console.log(req.userId);
     const existingRestaurant = await Restaurant.findOne({ user: req.userId });
 
     if (existingRestaurant) {
-      return res.status(409).json({ message: "Restaurant already exists" });
+      return res
+        .status(409)
+        .json({ message: "User restaurant already exists" });
     }
 
-    const image = req.file as Express.Multer.File;
-    const base64Image = Buffer.from(image.buffer).toString("base64");
-    const dataURI = `data:${image.mimetype};base64,${base64Image}`;
+    const imageUrl = req.file as Express.Multer.File;
 
-    const uploadResponse = await cloudinary.v2.uploader.upload(dataURI);
-
-    const restaurant = new Restaurant({
-      ...req.body,
-      imageUrl: uploadResponse.url,
-      user: new mongoose.Types.ObjectId(req.userId),
-      lastUpdated: new Date(),
-    });
-
+    const restaurant = new Restaurant(req.body);
+    restaurant.imageUrl = imageUrl;
+    restaurant.user = new mongoose.Types.ObjectId(req.userId);
+    restaurant.lastUpdated = new Date();
     await restaurant.save();
 
     res.status(201).send(restaurant);
-    // } else {
-    //   res.status(404).json({ message: "userID not passing here" });
-    // }
-  } catch (error: any) {
-    console.error("Error creating restaurant:", error);
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
