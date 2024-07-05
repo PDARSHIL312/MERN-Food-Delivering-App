@@ -8,6 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useGetMyuser = () => {
   const { getAccessTokenSilently } = useAuth0();
+  // console.log(getAccessTokenSilently);
   const getMyUserRequest = async (): Promise<User> => {
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/api/my/user`, {
@@ -18,6 +19,7 @@ export const useGetMyuser = () => {
       },
     });
 
+    // console.log(response);
     if (!response.ok) {
       const errorData = await response.json();
       console.error("Error data:", errorData);
@@ -59,6 +61,8 @@ export const useCreateMyUser = () => {
       },
       body: JSON.stringify(user),
     });
+
+    console.log(response);
 
     if (!response.ok) {
       const errorData = await response.json();

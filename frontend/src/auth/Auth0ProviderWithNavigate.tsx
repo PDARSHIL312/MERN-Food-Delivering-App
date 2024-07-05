@@ -1,4 +1,3 @@
-// import { useCreateMyUser } from "@/api/MyUserApi";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +6,6 @@ type Props = {
 };
 
 const Auth0ProviderWithNavigate = ({ children }: Props) => {
-  // const { createUser } = useCreateMy
   const navigate = useNavigate();
 
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -15,15 +13,14 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
   const redirectUri = import.meta.env.VITE_AUTH0_CALLBACK_URL;
   const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
 
+  // console.log(audience);
+
   if (!domain || !clientId || !redirectUri || !audience) {
-    throw new Error("unable to initialize Auth0");
+    console.error("Unable to initialize Auth0. Check environment variables.");
+    throw new Error("Unable to initialize Auth0");
   }
 
   const onRedirectCallback = () => {
-    // console.log("USER", user);
-    // if (user?.sub && user?.email) {
-    //   createUser({ auth0Id: user.sub, email: user.email });
-    // }
     navigate("/auth-callback");
   };
 
