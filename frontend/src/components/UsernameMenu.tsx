@@ -23,6 +23,12 @@ export default function UsernameMenu() {
         {/* Visible Separator with Tailwind classes */}
         <Separator className="border-t border-gray-200" />
         <DropdownMenuItem className="px-4 py-2 hover:text-orange-500">
+          <Link to="/manage-restaurant" className="font-bold">
+            Manage Restaurant
+          </Link>
+        </DropdownMenuItem>
+        <Separator className="border-t border-gray-200" />
+        <DropdownMenuItem className="px-4 py-2 hover:text-orange-500">
           <Link to="/user-profile" className="font-bold">
             User Profile
           </Link>

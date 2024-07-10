@@ -1,6 +1,34 @@
+// import mongoose from "mongoose";
+
+// const UserSchema = new mongoose.Schema({
+//   auth0Id: {
+//     type: String,
+//     required: true,
+//   },
+//   email: {
+//     type: String,
+//     required: true,
+//   },
+//   name: {
+//     type: String,
+//   },
+//   addressLine1: {
+//     type: String,
+//   },
+//   city: {
+//     type: String,
+//   },
+//   country: {
+//     type: String,
+//   },
+// });
+
+// const User = mongoose.model("User", UserSchema);
+// export default User;
+
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   auth0Id: {
     type: String,
     required: true,
@@ -23,5 +51,5 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", userSchema);
 export default User;
