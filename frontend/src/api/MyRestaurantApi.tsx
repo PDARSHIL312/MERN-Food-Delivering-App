@@ -1,4 +1,4 @@
-import {  Restaurant } from "@/types";
+import { Restaurant } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "react-query";
 import { toast } from "sonner";
@@ -51,7 +51,7 @@ export const useCreateMyRestaurant = () => {
     if (!response.ok) {
       throw new Error("Failed to create restaurant");
     }
-
+    console.log(response);
     return response.json();
   };
 

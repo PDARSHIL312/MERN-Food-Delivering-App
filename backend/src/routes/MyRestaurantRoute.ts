@@ -14,14 +14,7 @@ const upload = multer({
 });
 
 //  /api/my/restaurant
-// router.post(
-//   "/",
-//   // jwtCheck, // it is used to verify he token stuff
-//   // jwtParse, // it is used to take the information from the token and used it into Request object for data
-//   upload.single("imageFile"),
-//   // validateMyRestaurantRequest,
-//   MyRestaurantController.createMyRestaurant
-// );
+
 router.post(
   "/",
   upload.single("imageFile"),

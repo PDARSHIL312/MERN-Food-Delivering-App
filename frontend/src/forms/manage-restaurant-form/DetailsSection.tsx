@@ -66,8 +66,8 @@ export default function DetailsSection() {
           control={control}
           name="RestaurantName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
+            <FormItem className="flex-1">
+              <FormLabel>RestaurantName</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
