@@ -1,21 +1,27 @@
-import { useCreateMyRestaurant } from "@/api/MyRestaurantApi";
+import {
+  useCreateMyRestaurant,
+  useGetMyRestaurant,
+  useUpdateMyRestaurant,
+} from "@/api/MyRestaurantApi";
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 
 export default function ManageRestaurantPage() {
   const { createRestaurant, isLoading: isCreateLoading } =
     useCreateMyRestaurant();
+  const { restaurant } = useGetMyRestaurant();
+  const { updateRestaurant, isLoading: isUpdateLoading } =
+    useUpdateMyRestaurant();
+
+  const isEditing = !!restaurant; /// so this vvalue provide the 100% truthy valur means it will indicate that if this one really exists or not if yes than it will be true else it will be false
+
   return (
     <ManageRestaurantForm
-      onSave={createRestaurant}
-      isLoading={isCreateLoading}
+      restaurant={restaurant}
+      onSave={isEditing ? updateRestaurant : createRestaurant}
+      isLoading={isCreateLoading || isUpdateLoading}
     />
   );
 }
-
-
-
-
-
 
 // import {
 //   useCreateMyRestaurant,
