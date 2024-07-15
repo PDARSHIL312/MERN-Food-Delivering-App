@@ -10,6 +10,7 @@ export const useGetMyRestaurant = () => {
 
   const getMyRestaurantRequest = async (): Promise<Restaurant> => {
     const accessToken = await getAccessTokenSilently();
+    // console.log("Access Token:", accessToken);
 
     const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
       method: "GET",
@@ -19,6 +20,12 @@ export const useGetMyRestaurant = () => {
     });
 
     if (!response.ok) {
+      // throw new Error("Failed to get restaurant");
+      console.error(
+        "Failed to get restaurant:",
+        response.status,
+        response.statusText
+      );
       throw new Error("Failed to get restaurant");
     }
     return response.json();
@@ -39,6 +46,7 @@ export const useCreateMyRestaurant = () => {
     restaurantFormData: FormData
   ): Promise<Restaurant> => {
     const accessToken = await getAccessTokenSilently();
+    console.log(accessToken);
 
     const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
       method: "POST",
@@ -47,7 +55,7 @@ export const useCreateMyRestaurant = () => {
       },
       body: restaurantFormData,
     });
-
+    console.log(response);
     if (!response.ok) {
       throw new Error("Failed to create restaurant");
     }
