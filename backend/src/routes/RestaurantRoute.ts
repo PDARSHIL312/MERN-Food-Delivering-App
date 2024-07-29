@@ -5,8 +5,19 @@ const express = require("express");
 const router = express.Router();
 
 router.get(
+  "/search/:restaurantId",
+  param("restaurantId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("restaurant parameter must be a valid String"),
+  RestaurantController.getRestaurant
+);
+
+
+router.get(
   "/search/:city",
-  param()
+  param("city")
     .isString()
     .trim()
     .notEmpty()
