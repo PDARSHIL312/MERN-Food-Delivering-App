@@ -1,12 +1,11 @@
-
+// import { MenuItem } from "../types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-type MenuItem = {
+export type MenuItem = {
   _id: string;
   name: string;
   price: number;
-};  
-
+};
 
 type Props = {
   menuItem: MenuItem;

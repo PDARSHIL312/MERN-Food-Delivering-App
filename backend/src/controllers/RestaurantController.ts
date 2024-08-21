@@ -3,24 +3,24 @@ import Restaurant from "../models/restaurant";
 
 const getRestaurant = async (req: Request, res: Response) => {
   try {
-    const restaurantId = req.params.restaurant;
+    const restaurantId = req.params.restaurantId;
 
     const restaurant = await Restaurant.findById(restaurantId);
-
     if (!restaurant) {
-      res.status(404).json({ message: "restaurant not found" });
+      return res.status(404).json({ message: "restaurant not found" });
     }
 
     res.json(restaurant);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: "something went wrong" });
   }
 };
 
 const searchRestaurant = async (req: Request, res: Response) => {
   try {
     const city = req.params.city;
+
     const searchQuery = (req.query.searchQuery as string) || "";
     const selectedCuisines = (req.query.selectedCuisines as string) || "";
     const sortOption = (req.query.sortOption as string) || "lastUpdated";
@@ -28,9 +28,8 @@ const searchRestaurant = async (req: Request, res: Response) => {
 
     let query: any = {};
 
-    query["city"] = new RegExp(city, "i"); // for mongodb Query
+    query["city"] = new RegExp(city, "i");
     const cityCheck = await Restaurant.countDocuments(query);
-
     if (cityCheck === 0) {
       return res.status(404).json({
         data: [],
@@ -43,24 +42,25 @@ const searchRestaurant = async (req: Request, res: Response) => {
     }
 
     if (selectedCuisines) {
-      const cusinesArray = selectedCuisines
+      const cuisinesArray = selectedCuisines
         .split(",")
-        .map((cusine) => new RegExp(cusine, "i"));
+        .map((cuisine) => new RegExp(cuisine, "i"));
 
-      query["cuisines"] = { $all: cusinesArray };
+      query["cuisines"] = { $all: cuisinesArray };
     }
 
     if (searchQuery) {
-      const searchRegx = new RegExp(searchQuery, "i");
+      const searchRegex = new RegExp(searchQuery, "i");
       query["$or"] = [
-        { restaurantName: searchRegx },
-        { cuisines: { $in: [searchRegx] } },
+        { restaurantName: searchRegex },
+        { cuisines: { $in: [searchRegex] } },
       ];
     }
 
     const pageSize = 10;
     const skip = (page - 1) * pageSize;
 
+    // sortOption = "lastUpdated"
     const restaurants = await Restaurant.find(query)
       .sort({ [sortOption]: 1 })
       .skip(skip)
@@ -85,88 +85,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
   }
 };
 
-export default { searchRestaurant, getRestaurant };
-
-// If wanted to use aggregation pipeline
-
-// import { Request, Response } from "express";
-// import Restaurant from "../models/restaurant";
-
-// const searchRestaurant = async (req: Request, res: Response) => {
-//   try {
-//     const city = req.params.city;
-//     const searchQuery = (req.query.searchQuery as string) || "";
-//     const selectedCuisines = (req.query.selectedCuisines as string) || "";
-//     const sortOption = (req.query.sortOption as string) || "lastUpdated";
-//     const page = parseInt(req.query.page as string) || 1;
-
-//     const pageSize = 10;
-//     const skip = (page - 1) * pageSize;
-
-//     let match: any = {
-//       city: new RegExp(city, "i"),
-//     };
-
-//     if (selectedCuisines) {
-//       const cuisinesArray = selectedCuisines
-//         .split(",")
-//         .map((cuisine) => new RegExp(cuisine, "i"));
-//       match.cuisines = { $all: cuisinesArray };
-//     }
-
-//     if (searchQuery) {
-//       const searchRegx = new RegExp(searchQuery, "i");
-//       match.$or = [
-//         { restaurantName: searchRegx },
-//         { cuisines: { $in: [searchRegx] } },
-//       ];
-//     }
-
-//     const aggregatePipeline = [
-//       { $match: match },
-//       { $sort: { [sortOption]: 1 } },
-//       { $skip: skip },
-//       { $limit: pageSize },
-//       {
-//         $facet: {  // here this is for the proper documenttaion return if you not do it than it okay but transition may not smoother in fetch so
-//           data: [
-//             { $match: match },
-//             { $sort: { [sortOption]: 1 } },
-//             { $skip: skip },
-//             { $limit: pageSize },
-//           ],
-//           pagination: [
-//          { $match: match },
-//           { $count: "total" }
-//              ],
-//         },
-//       },
-//       {
-//         $project: {  // this is un necessary if you do not want than it is okay
-//           data: 1,
-//           pagination: {
-//             $arrayElemAt: ["$pagination", 0],
-//           },
-//         },
-//       },
-//     ];
-
-//     const result = await Restaurant.aggregate(aggregatePipeline).exec();
-
-//     const response = {
-//       data: result[0]?.data || [],
-//       pagination: {
-//         total: result[0]?.pagination?.total || 0,
-//         page,
-//         pages: Math.ceil((result[0]?.pagination?.total || 0) / pageSize),
-//       },
-//     };
-
-//     res.json(response);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Something went wrong" });
-//   }
-// };
-
-// export default { searchRestaurant };
+export default {
+  getRestaurant,
+  searchRestaurant,
+};

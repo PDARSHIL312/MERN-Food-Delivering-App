@@ -1,5 +1,20 @@
+// import { Request, Response } from "express";
 import { Request, Response } from "express";
 import User from "../models/user";
+
+const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    const currentUser = await User.findOne({ _id: req.userId });
+    if (!currentUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(currentUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
 
 const createCurrentUser = async (req: Request, res: Response) => {
   try {
@@ -20,48 +35,31 @@ const createCurrentUser = async (req: Request, res: Response) => {
   }
 };
 
-
 const updateCurrentUser = async (req: Request, res: Response) => {
   try {
     const { name, addressLine1, country, city } = req.body;
-    // console.log("body!!!!!!!!!!!!!!!" + req.userId);
     const user = await User.findById(req.userId);
-    // console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // user.updateOne({ name, addressLine1, country, city });
     user.name = name;
     user.addressLine1 = addressLine1;
     user.city = city;
     user.country = country;
+
     await user.save();
 
     res.send(user);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error updating the user" });
+    res.status(500).json({ message: "Error updating user" });
   }
 };
 
-const getCurrentUser = async (req: Request, res: Response) => {
-  try {
-    // console.log(req.userId);
-    const currentUser = await User.findOne({ _id: req.userId });
-    // console.log(currentUser);
-    if (!currentUser) {
-      return res
-        .status(404)
-        .json({ message: "user not found", userId: req.userId });
-    }
-
-    res.json(currentUser);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Something went wrong" });
-  }
+export default {
+  getCurrentUser,
+  createCurrentUser,
+  updateCurrentUser,
 };
-
-export default { createCurrentUser, updateCurrentUser, getCurrentUser };

@@ -7,11 +7,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import { Contrast } from "lucide-react";
-import React from "react";
 import { useFormContext } from "react-hook-form";
 
-export default function DetailsSection() {
+const DetailsSection = () => {
   const { control } = useFormContext();
   return (
     <div className="space-y-2">
@@ -23,7 +21,7 @@ export default function DetailsSection() {
       </div>
       <FormField
         control={control}
-        name="RestaurantName"
+        name="restaurantName"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Name</FormLabel>
@@ -34,7 +32,6 @@ export default function DetailsSection() {
           </FormItem>
         )}
       />
-
       <div className="flex gap-4">
         <FormField
           control={control}
@@ -62,33 +59,16 @@ export default function DetailsSection() {
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="RestaurantName"
-          render={({ field }) => (
-            <FormItem className="flex-1">
-              <FormLabel>RestaurantName</FormLabel>
-              <FormControl>
-                <Input {...field} className="bg-white" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
+
       <FormField
         control={control}
         name="deliveryPrice"
         render={({ field }) => (
           <FormItem className="max-w-[25%]">
-            <FormLabel>Delivery price</FormLabel>
+            <FormLabel>Delivery price (£)</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                className="bg-white"
-                placeholder="1.50
-              "
-              />
+              <Input {...field} className="bg-white" placeholder="1.50" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -99,9 +79,9 @@ export default function DetailsSection() {
         name="estimatedDeliveryTime"
         render={({ field }) => (
           <FormItem className="max-w-[25%]">
-            <FormLabel>Estimated Delivery Time(Minutes)</FormLabel>
+            <FormLabel>Estimated Delivery Time (minutes)</FormLabel>
             <FormControl>
-              <Input {...field} className="bg-white" />
+              <Input {...field} className="bg-white" placeholder="30" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -109,4 +89,6 @@ export default function DetailsSection() {
       />
     </div>
   );
-}
+};
+
+export default DetailsSection;

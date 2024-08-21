@@ -2,14 +2,15 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import MyUserRoute from "./routes/MyUserRoute";
+import myUserRoute from "./routes/MyUserRoute";
 import { v2 as cloudinary } from "cloudinary";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
-import restaurnatRoute from "./routes/RestaurantRoute";
+import restaurantRoute from "./routes/RestaurantRoute";
+import orderRoute from "./routes/OrderRoute";
 
 mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING as string)
-  .then(() => console.log("Connected to database!!!"));
+  .then(() => console.log("Connected to database!"));
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -18,29 +19,29 @@ cloudinary.config({
 });
 
 const app = express();
+
+app.use(cors());
+
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
+
 app.use(express.json());
-// app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  next();
+
+app.get("/health", async (req: Request, res: Response) => {
+  res.send({ message: "health OK!" });
 });
 
-// /api/my/user
-app.use("/api/my/user", MyUserRoute);
+app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", myRestaurantRoute);
-app.use("/api/my/restaurant", restaurnatRoute);
+app.use("/api/restaurant", restaurantRoute);
+app.use("/api/order", orderRoute);
 
-// app.get("/test", async (req: Request, res: Response) => {
-//   res.json({ message: "Hello" });
-// });
-
-const PORT = process.env.PORT || 7000;
-app.listen(PORT, () => {
-  console.log("Server Started!!!");
+app.listen(7000, () => {
+  console.log("server started on localhost:7000");
 });
+
+
+
+
+
+
+

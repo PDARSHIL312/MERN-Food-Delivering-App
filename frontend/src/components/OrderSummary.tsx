@@ -1,32 +1,28 @@
+import { CartItem } from "@/pages/DetailPage";
 import { Restaurant } from "@/types";
-import React from "react";
 import { CardContent, CardHeader, CardTitle } from "./ui/card";
-import { CardItem } from "@/pages/DetailPage";
-import { Separator } from "@radix-ui/react-separator";
 import { Badge } from "./ui/badge";
+import { Separator } from "./ui/separator";
 import { Trash } from "lucide-react";
 
 type Props = {
   restaurant: Restaurant;
-  cardItems: CardItem[];
-  removeFromCart: (CardItem: CardItem) => void;
+  cartItems: CartItem[];
+  removeFromCart: (cartItem: CartItem) => void;
 };
 
-export default function OrderSummary({
-  restaurant,
-  cardItems,
-  removeFromCart,
-}: Props) {
+const OrderSummary = ({ restaurant, cartItems, removeFromCart }: Props) => {
   const getTotalCost = () => {
-    const totalInPence = cardItems.reduce(
-      (Acctotal, cardItem) => Acctotal + cardItem.price * cardItem.quantity,
+    const totalInPence = cartItems.reduce(
+      (total, cartItem) => total + cartItem.price * cartItem.quantity,
       0
     );
 
-    const toatalWithDelivery = totalInPence + restaurant.deliveryPrice;
+    const totalWithDelivery = totalInPence + restaurant.deliveryPrice;
 
-    return (toatalWithDelivery / 100).toFixed(2);
+    return (totalWithDelivery / 100).toFixed(2);
   };
+
   return (
     <>
       <CardHeader>
@@ -36,7 +32,7 @@ export default function OrderSummary({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
-        {cardItems.map((item) => (
+        {cartItems.map((item) => (
           <div className="flex justify-between">
             <span>
               <Badge variant="outline" className="mr-2">
@@ -64,4 +60,6 @@ export default function OrderSummary({
       </CardContent>
     </>
   );
-}
+};
+
+export default OrderSummary;

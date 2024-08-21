@@ -11,8 +11,6 @@ import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Restaurant } from "@/types";
 import { useEffect } from "react";
-// import { Restaurant } from "@/types";
-// import { useEffect } from "react";
 
 const formSchema = z
   .object({
@@ -62,15 +60,8 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      restaurantName: "",
-      city: "",
-      country: "",
-      deliveryPrice: 0,
-      estimatedDeliveryTime: 0,
       cuisines: [],
       menuItems: [{ name: "", price: 0 }],
-      imageUrl: "",
-      imageFile: undefined,
     },
   });
 
@@ -78,6 +69,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     if (!restaurant) {
       return;
     }
+
     // price lowest domination of 100 = 100pence == 1GBP
     const deliveryPriceFormatted = parseInt(
       (restaurant.deliveryPrice / 100).toFixed(2)
@@ -143,18 +135,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
         <MenuSection />
         <Separator />
         <ImageSection />
-        {isLoading ? (
-          <LoadingButton />
-        ) : (
-          <Button
-            type="submit"
-            onClick={() => {
-              console.log("hey");
-            }}
-          >
-            Submit
-          </Button>
-        )}
+        {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>
   );
