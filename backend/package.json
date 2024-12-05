@@ -1,26 +1,27 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "node "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/multer": "^1.4.11",
+    "bcryptjs": "^2.4.3",
     "cloudinary": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.1",
     "express-oauth2-jwt-bearer": "^1.6.0",
     "express-validator": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.7.0",
-    "mongoose": "^8.4.0",
+    "mongoose": "^8.7.1",
     "multer": "^1.4.5-lts.1",
+    "openai": "^4.67.3",
     "stripe": "^16.5.0"
   },
   "devDependencies": {
@@ -28,8 +29,9 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.13",
-    "nodemon": "^3.1.2",
+    "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
-  }
+    "typescript": "^5.7.2"
+  },
+  "description": ""
 }

@@ -3,7 +3,7 @@ import appDownloadImage from "../assets/appDownload.png";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 
-const HomePage = () => {
+const   HomePage = () => {
   const navigate = useNavigate();
 
   const handleSearchSubmit = (searchFormValues: SearchForm) => {
